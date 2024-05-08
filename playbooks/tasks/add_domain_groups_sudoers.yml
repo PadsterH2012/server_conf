@@ -8,3 +8,12 @@
     validate: 'visudo -cf %s'
   loop: "{{ domain_groups }}"
   become: yes
+
+- name: Add users to sudoers
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers
+    line: '"{{ item }}" ALL=(ALL) ALL'
+    validate: 'visudo -cf %s'
+    state: present
+  loop: "{{ sudo_users }}"
+  become: yes
