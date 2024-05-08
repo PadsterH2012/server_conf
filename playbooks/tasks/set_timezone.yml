@@ -1,0 +1,5 @@
+---
+- name: Set system timezone to UTC
+  ansible.builtin.timezone:
+    name: UTC
+  become: yes
