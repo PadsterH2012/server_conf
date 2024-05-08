@@ -1,0 +1,16 @@
+---
+- name: Update /etc/hosts for IPv4
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    regexp: '^(127\.0\.0\.1\s+).*'
+    line: "127.0.0.1   {{ new_hostname }}.{{ new_domain_name }} {{ new_hostname }} localhost localhost.localdomain localhost4 localhost4.localdomain4"
+    state: present
+  become: yes
+
+- name: Update /etc/hosts for IPv6
+  ansible.builtin.lineinfile:
+    path: /etc/hosts
+    regexp: '^(::1\s+).*'
+    line: "::1         {{ new_hostname }}.{{ new_domain_name }} {{ new_hostname }} localhost localhost.localdomain localhost6 localhost6.localdomain6"
+    state: present
+  become: yes
