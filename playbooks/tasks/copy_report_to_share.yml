@@ -1,17 +1,18 @@
-- name: Mount SMB share
+- name: Mount NFS share
   ansible.builtin.mount:
-    path: /mnt/smb_share
-    src: //10.203.20.3/Scripts/Reports
-    fstype: cifs
-    opts: "rw,guest"  # Changed to 'rw' for read-write access, and 'guest' if no auth is needed
+    path: /mnt/nfs_share
+    src: 10.203.20.3:/mnt/raid1/scripts
+    fstype: nfs
+    opts: "nfsvers=4"
     state: mounted
-
-- name: Copy HTML report to SMB share
+  become: yes
+  
+- name: Copy HTML report to NFS share
   ansible.builtin.copy:
     src: /tmp/my_html_report.html
-    dest: /mnt/smb_share/my_html_report.html
+    dest: /mnt/nfs_share/my_html_report.html
 
 - name: Unmount SMB share
   ansible.builtin.mount:
-    path: /mnt/smb_share
+    path: /mnt/nfs_share
     state: unmounted
