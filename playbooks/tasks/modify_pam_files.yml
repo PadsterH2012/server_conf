@@ -10,3 +10,5 @@
     - /etc/pam.d/crond
     - /etc/pam.d/password-auth
     - /etc/pam.d/system-auth
+  ignore_errors: yes
+  become: yes
