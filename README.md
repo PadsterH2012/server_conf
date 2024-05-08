@@ -2,13 +2,13 @@
 
 1) Set Hostname
 2) Set hosts
-Set DNS Search Domains
-Install packages
-Install Security Packages
-Join Realm
-Add groups to sudoers
-Add groups to access
-create srv_ansible account
+3) Set DNS Search Domains
+4) Install packages
+5) Install Security Packages
+6) Join Realm
+7) Add groups to sudoers
+8) Add groups to access
+9) create srv_ansible account
 
 
-Email Report
+10) Email Report
