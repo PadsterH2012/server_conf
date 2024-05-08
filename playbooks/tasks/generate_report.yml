@@ -1,0 +1,4 @@
+- name: Generate HTML report
+  ansible.builtin.template:
+    src: templates/html_email_report.j2
+    dest: /tmp/my_html_report.html
