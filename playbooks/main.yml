@@ -39,7 +39,7 @@
           include_tasks: tasks/generate_report.yml
 
         - name: Copy Report to Share
-          include_tasks: tasks/gopy_report_to_share.yml
+          include_tasks: tasks/copy_report_to_share.yml
           
       rescue:
         - name: Set failure fact
