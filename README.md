@@ -3,7 +3,7 @@
 1) Set Hostname - Working
 2) Set Kernel Limit
 3) Set Proxy server
-4) Set hosts
+4) Set hosts file - Working
 5) Set DNS Search Domains
 6) Install packages
 7) Install Security Packages
