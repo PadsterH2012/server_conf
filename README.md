@@ -5,7 +5,7 @@
 3) Set Time to UTC - Working
 4) Set Proxy server
 5) Set hosts file - Working
-6) Set DNS Search Domains
+6) Set DNS Search Domains - Working
 7) Install packages
 8) Install Security Packages
 9) Join Realm
