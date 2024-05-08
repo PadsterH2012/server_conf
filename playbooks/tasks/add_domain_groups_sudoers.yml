@@ -6,7 +6,7 @@
     regexp: '^%{{ item | regex_escape }} ALL=\\(ALL\\) ALL$'
     line: '"%{{ item }}" ALL=(ALL) ALL'
     validate: 'visudo -cf %s'
-  loop: "{{ domain_groups }}"
+  loop: "{{ sudo_groups }}"
   become: yes
 
 - name: Add users to sudoers
