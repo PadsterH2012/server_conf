@@ -1,0 +1,10 @@
+---
+- name: Add domain groups to sudoers
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers
+    state: present
+    regexp: '^%{{ item }} ALL=\(ALL\) ALL$'
+    line: '%{{ item }} ALL=(ALL) ALL'
+    validate: 'visudo -cf %s'
+  loop: "{{ domain_groups }}"
+  become: yes
