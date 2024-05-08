@@ -31,7 +31,10 @@
 
         - name: Include nightly cron job setup
           include_tasks: tasks/set_nightly_cron_job.yml
-      
+
+        - name: Setup and Mount attached disks
+          include_tasks: tasks/setup_disks.yml
+          
       rescue:
         - name: Set failure fact
           set_fact:
