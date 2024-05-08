@@ -1,7 +1,7 @@
 # server_conf
 
-Set Hostname
-Set hosts
+1) Set Hostname
+2) Set hosts
 Set DNS Search Domains
 Install packages
 Install Security Packages
