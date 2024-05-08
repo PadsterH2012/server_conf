@@ -12,6 +12,7 @@
 10) Config Auth Access - Working, needs to run after domain join and test
 11) Add groups to sudoers - Working
 12) Add groups to access - Working
+13) Ensure carnivaluk\srv_ansible is added to sudoers and access.conf - Working
 14) Set Redhat Subscription
 15) add new drive and set mount point
 
