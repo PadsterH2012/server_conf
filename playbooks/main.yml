@@ -16,6 +16,9 @@
 
         - name: Set System Timezone to UTC
           include_tasks: tasks/set_timezone.yml
+
+        - name: Add Search Domains to Network Card
+          include_tasks: tasks/add_search_domains.yml
       
       rescue:
         - name: Set failure fact
