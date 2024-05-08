@@ -1,5 +1,5 @@
-- name: Copy HTML report to SMB share
-  ansible.builtin.copy:
-    src: /tmp/my_html_report.html
-    dest: /mnt/nfs_share/my_html_report.html
-    remote_src: yes  # Indicates that the src file is on the remote machine
+# - name: Copy HTML report to SMB share
+#   ansible.builtin.copy:
+#     src: /tmp/my_html_report.html
+#     dest: /mnt/nfs_share/my_html_report.html
+#     remote_src: yes  # Indicates that the src file is on the remote machine
