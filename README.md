@@ -2,7 +2,7 @@
 
 1) Set Hostname - Working
 2) Set Kernel Limit - Working
-3) Set Time to UTC
+3) Set Time to UTC - Working
 4) Set Proxy server
 5) Set hosts file - Working
 6) Set DNS Search Domains
