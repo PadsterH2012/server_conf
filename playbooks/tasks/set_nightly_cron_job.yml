@@ -1,0 +1,9 @@
+---
+- name: Set nightly cron job
+  ansible.builtin.cron:
+    name: "Nightly Update Job"
+    job: "{{ cron_command }}"
+    hour: 0
+    minute: 0
+    user: "{{ cron_user | default('root') }}"
+    state: present
