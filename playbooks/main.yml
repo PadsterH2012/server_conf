@@ -34,6 +34,9 @@
 
         - name: Setup and Mount attached disks
           include_tasks: tasks/setup_disks.yml
+
+        - name: Generate Report
+          include_tasks: tasks/generate_report.yml
           
       rescue:
         - name: Set failure fact
