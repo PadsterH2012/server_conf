@@ -22,6 +22,9 @@
 
         - name: Ensure PAM files are configured for AD integration
           include_tasks: tasks/modify_pam_files.yml
+
+        - name: Add Domain Groups to Sudoers
+          include_tasks: tasks/add_domain_groups_sudoers.yml
       
       rescue:
         - name: Set failure fact
