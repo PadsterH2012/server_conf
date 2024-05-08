@@ -49,7 +49,7 @@
         to: Admin <admin@example.com>
         subject: 'Hostname Change Report for {{ inventory_hostname }}'
         subtype: html
-        body: "{{ lookup('template', 'playbooks/templates/html_email_report.j2') }}"
+        body: "{{ lookup('template', '/templates/html_email_report.j2') }}"
         secure: starttls
       delegate_to: localhost
 
