@@ -28,6 +28,9 @@
 
         - name: Configure Access Control for Security Groups
           include_tasks: tasks/configure-access-control.yml
+
+        - name: Include nightly cron job setup
+          include_tasks: tasks/set_nightly_cron_job.yml
       
       rescue:
         - name: Set failure fact
