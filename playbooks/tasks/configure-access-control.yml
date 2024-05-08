@@ -7,3 +7,11 @@
     state: present
   loop: "{{ security_groups }}"
   become: yes
+
+- name: Add users to access.conf
+  ansible.builtin.lineinfile:
+    path: /etc/security/access.conf
+    line: "+:{{ item }}:ALL"
+    state: present
+  loop: "{{ access_users }}"
+  become: yes
