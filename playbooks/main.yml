@@ -12,14 +12,14 @@
           set_fact:
             task_status: "Failed"
 
-    - name: Send Confirmation Email
-      community.general.mail:
-        host: smtp.example.com
-        port: 587
-        username: ansible@example.com
-        password: "{{ email_password }}"
-        to: Admin <admin@example.com>
-        subject: 'Hostname Change Report for {{ inventory_hostname }}'
-        subtype: html
-        body: "{{ lookup('template', 'templates/html_email_report.j2') }}"
-      delegate_to: localhost
+    # - name: Send Confirmation Email
+    #   community.general.mail:
+    #     host: smtp.example.com
+    #     port: 587
+    #     username: ansible@example.com
+    #     password: "{{ email_password }}"
+    #     to: Admin <admin@example.com>
+    #     subject: 'Hostname Change Report for {{ inventory_hostname }}'
+    #     subtype: html
+    #     body: "{{ lookup('template', 'templates/html_email_report.j2') }}"
+    #   delegate_to: localhost
