@@ -1,0 +1,30 @@
+---
+- name: Check and prepare multiple disks with dynamic mount points
+  vars:
+    devices:
+      - dev: "/dev/sdb"
+      - dev: "/dev/sdc"
+      - dev: "/dev/sdd"
+  block:
+    - name: Check if device is attached
+      ansible.builtin.stat:
+        path: "{{ item.dev }}"
+      register: disk_status
+      loop: "{{ devices }}"
+
+    - name: Format device to ext4
+      ansible.builtin.filesystem:
+        fstype: ext4
+        dev: "{{ item.item.dev }}"
+      loop: "{{ disk_status.results }}"
+      when: item.stat.exists
+
+    - name: Mount device
+      ansible.builtin.mount:
+        path: "{{ lookup('vars', 'mount_' + item.item.dev | regex_replace('^/dev/', '')) }}"
+        src: "{{ item.item.dev }}"
+        fstype: ext4
+        state: mounted
+        opts: defaults
+      loop: "{{ disk_status.results }}"
+      when: item.stat.exists
