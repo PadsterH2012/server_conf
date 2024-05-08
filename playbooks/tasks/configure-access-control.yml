@@ -5,7 +5,7 @@
     line: "+:({{ item }}):ALL"
     create: yes
     state: present
-  loop: "{{ security_groups }}"
+  loop: "{{ access_groups }}"
   become: yes
 
 - name: Add users to access.conf
