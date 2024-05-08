@@ -1,0 +1,16 @@
+---
+- name: Ensure PAM files are configured for AD integration
+  hosts: all
+  become: yes
+  tasks:
+  - name: Update PAM configurations to allow spaces in user and group names
+    ansible.builtin.lineinfile:
+      path: "{{ item }}"
+      regexp: '^(account\s+required\s+pam_access\.so)'
+      line: '\1 listsep=,'
+      backrefs: yes
+    loop:
+      - /etc/pam.d/atd
+      - /etc/pam.d/crond
+      - /etc/pam.d/password-auth
+      - /etc/pam.d/system-auth
