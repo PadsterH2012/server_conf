@@ -1,7 +1,7 @@
 - name: Mount SMB share
   ansible.builtin.mount:
     path: /mnt/smb_share
-    src: //smb-server/share
+    src: //10.203.20.3/Scripts/Reports
     fstype: cifs
     opts: guest,ro
     state: mounted
