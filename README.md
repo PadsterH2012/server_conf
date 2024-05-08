@@ -15,5 +15,6 @@
 13) Ensure carnivaluk\srv_ansible is added to sudoers and access.conf - Working
 14) Set Redhat Subscription
 15) add new drive and set mount point
+16) Specify a cronjob entry to update using variables every night at 12 midnight
 
 99) Email Report
