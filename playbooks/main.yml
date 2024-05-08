@@ -13,6 +13,9 @@
           
         - name: Set Kernel Limit
           include_tasks: tasks/set_kernel_limit.yml
+
+        - name: Set System Timezone to UTC
+          include_tasks: tasks/set_timezone.yml
       
       rescue:
         - name: Set failure fact
