@@ -1,7 +1,7 @@
 ---
-- name: Change Hostname
+- name: Change Hostname to UPPERCASE
   ansible.builtin.hostname:
-    name: "{{ new_hostname }}"
+    name: "{{ new_hostname | upper }}"
   register: hostname_change
 
 - name: Check if hostname was changed
