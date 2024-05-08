@@ -1,0 +1,17 @@
+- name: Mount SMB share
+  ansible.builtin.mount:
+    path: /mnt/smb_share
+    src: //smb-server/share
+    fstype: cifs
+    opts: guest,ro
+    state: mounted
+
+- name: Copy HTML report to SMB share
+  ansible.builtin.copy:
+    src: /tmp/my_html_report.html
+    dest: /mnt/smb_share/my_html_report.html
+
+- name: Unmount SMB share
+  ansible.builtin.mount:
+    path: /mnt/smb_share
+    state: unmounted
