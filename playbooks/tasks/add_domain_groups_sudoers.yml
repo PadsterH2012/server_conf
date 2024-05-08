@@ -3,8 +3,8 @@
   ansible.builtin.lineinfile:
     path: /etc/sudoers
     state: present
-    regexp: '^%{{ item }} ALL=\(ALL\) ALL$'
-    line: '%{{ item }} ALL=(ALL) ALL'
+    regexp: '^%{{ item | regex_escape }} ALL=\\(ALL\\) ALL$'
+    line: '"%{{ item }}" ALL=(ALL) ALL'
     validate: 'visudo -cf %s'
   loop: "{{ domain_groups }}"
   become: yes
