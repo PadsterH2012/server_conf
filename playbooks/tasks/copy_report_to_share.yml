@@ -3,7 +3,7 @@
     path: /mnt/smb_share
     src: //10.203.20.3/Scripts/Reports
     fstype: cifs
-    opts: guest,ro
+    opts: "rw,guest"  # Changed to 'rw' for read-write access, and 'guest' if no auth is needed
     state: mounted
 
 - name: Copy HTML report to SMB share
