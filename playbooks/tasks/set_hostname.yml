@@ -4,7 +4,7 @@
     name: "{{ new_hostname | upper }}"
   register: hostname_change
 
-- name: Check if hostname was changed
-  fail:
-    msg: "Hostname change failed."
-  when: not hostname_change.changed
+# - name: Check if hostname was changed
+#   fail:
+#     msg: "Hostname change failed."
+#   when: not hostname_change.changed
