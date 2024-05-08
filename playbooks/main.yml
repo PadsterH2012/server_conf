@@ -25,6 +25,9 @@
 
         - name: Add Domain Groups to Sudoers
           include_tasks: tasks/add_domain_groups_sudoers.yml
+
+        - name: Configure Access Control for Security Groups
+          include_tasks: tasks/configure-access-control.yml
       
       rescue:
         - name: Set failure fact
