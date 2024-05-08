@@ -7,6 +7,10 @@
     - block:
         - name: Include Set Hostname Tasks
           include_tasks: tasks/set_hostname.yml
+          
+        - name: Update /etc/hosts File
+          include_tasks: tasks/update_hosts.yml
+      
       rescue:
         - name: Set failure fact
           set_fact:
