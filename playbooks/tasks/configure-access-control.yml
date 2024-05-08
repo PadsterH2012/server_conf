@@ -1,0 +1,9 @@
+---
+- name: Update access.conf with general security groups
+  ansible.builtin.lineinfile:
+    path: /etc/security/access.conf
+    line: "+:({{ item }}):ALL"
+    create: yes
+    state: present
+  loop: "{{ security_groups }}"
+  become: yes
