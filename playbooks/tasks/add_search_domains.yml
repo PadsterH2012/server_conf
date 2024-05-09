@@ -1,3 +1,7 @@
+- name: Initialize nmcli failure flag
+  set_fact:
+    nmcli_failed: false
+
 - name: Add search domains to network card
   ansible.builtin.nmcli:
     conn_name: "{{ adapter_name }}"  # Ensure this is set to the correct network adapter name
@@ -5,7 +9,13 @@
     dns4_search: "{{ domain_list | join(' ') }}"
     state: present
   register: nmcli_output  # Register the result of the nmcli command
+  ignore_errors: true
   become: yes
+
+- name: Set failure flag if nmcli command failed
+  set_fact:
+    nmcli_failed: true
+  when: nmcli_output.failed
 
 - name: Gather detailed network configuration
   command: nmcli -g IP4.ADDRESS,IP4.GATEWAY,IP4.DNS con show {{ nmcli_output.conn_name }}
