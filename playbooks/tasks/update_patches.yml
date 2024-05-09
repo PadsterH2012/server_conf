@@ -2,8 +2,12 @@
   dnf:
     name: '*'
     state: latest
-    autoremove: yes
   register: update_result
+
+- name: Remove unneeded packages
+  dnf:
+    autoremove: yes
+  when: update_result.changed
 
 - name: Check if a reboot is needed
   stat:
