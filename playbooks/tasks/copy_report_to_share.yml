@@ -11,6 +11,7 @@
   ansible.builtin.copy:
     src: /tmp/my_html_report.html
     dest: /mnt/nfs_share/my_html_report.html
+    remote_src: yes  # Tells Ansible that the src file is on the remote machine
 
 - name: Unmount SMB share
   ansible.builtin.mount:
