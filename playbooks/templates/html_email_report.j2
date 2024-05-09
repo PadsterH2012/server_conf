@@ -68,8 +68,8 @@
         <tr>
             <td>Hostname Change</td>
             <td>N/A</td>
-            <td class="{{ 'success' if hostname_change_output.rc|default(0) == 0 else 'failure' }}">
-                {{ 'Complete' if hostname_change_output.rc|default(0) == 0 else 'Failed' }}
+            <td class="{% if hostname_change_output.rc is defined and hostname_change_output.rc == 0 %}OK{% elif hostname_change_output.rc is defined %}Changed{% else %}Failed{% endif %}">
+                {% if hostname_change_output.rc is defined and hostname_change_output.rc == 0 %}OK{% elif hostname_change_output.rc is defined %}Changed{% else %}Failed{% endif %}
             </td>
             <td>Hostname updated successfully.</td>
         </tr>
