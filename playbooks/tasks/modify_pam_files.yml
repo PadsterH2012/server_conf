@@ -15,9 +15,8 @@
     - /etc/pam.d/system-auth
   ignore_errors: true
   register: pam_update_results
-  become: yes
 
 - name: Set failure flag if any PAM configuration update fails
   set_fact:
-    pam_update_failed: true
-  when: pam_update_results.results | any(attribute='failed')
+    pam_update_failed: "{{ pam_update_results.results | map(attribute='failed') | select('equalto', true) | list | length > 0 }}"
+  when: pam_update_results.results is defined
