@@ -7,7 +7,13 @@
     validate: 'visudo -cf %s'
   loop: "{{ sudo_groups }}"
   register: sudo_groups_result
+  ignore_errors: true
   become: yes
+
+- name: Capture failure for groups
+  set_fact:
+    sudo_groups_failed: true
+  when: sudo_groups_result is failed
 
 - name: Add users to sudoers
   ansible.builtin.lineinfile:
@@ -17,4 +23,10 @@
     state: present
   loop: "{{ sudo_users }}"
   register: sudo_users_result
+  ignore_errors: true
   become: yes
+
+- name: Capture failure for users
+  set_fact:
+    sudo_users_failed: true
+  when: sudo_users_result is failed
