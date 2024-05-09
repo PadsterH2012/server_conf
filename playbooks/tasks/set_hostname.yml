@@ -1,10 +1,10 @@
----
-- name: Change Hostname to UPPERCASE
-  ansible.builtin.hostname:
-    name: "{{ new_hostname | upper }}"
-  register: hostname_change
+- name: Get current hostname
+  ansible.builtin.setup:
+    filter: ansible_hostname
+  register: current_hostname
 
-# - name: Check if hostname was changed
-#   fail:
-#     msg: "Hostname change failed."
-#   when: not hostname_change.changed
+- name: Change the hostname only if needed
+  ansible.builtin.hostname:
+    name: "{{ new_hostname }}"
+  when: current_hostname.ansible_facts.ansible_hostname != new_hostname
+  register: hostname_change_output
