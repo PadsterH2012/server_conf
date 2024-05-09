@@ -121,10 +121,10 @@
             </td>
             <td>Set to {{ kernel_limit }} in /etc/yum.conf</td>
         </tr>
-        {% for result in pam_update_results %}
+        {% for result in pam_update_results.results %}
         <tr>
             <td>Update PAM Configurations</td>
-            <td>{{ result.item }}</td> <!-- Assuming 'item' holds the name of the PAM file being configured -->
+            <td>{{ result.item }}</td> <!-- Sub Task column will show the path of the PAM file -->
             <td class="{{ 'success' if result.changed and not result.failed else 'failure' }}">
                 {{ 'Updated' if result.changed and not result.failed else 'Failed' }}
             </td>
@@ -137,6 +137,7 @@
             </td>
         </tr>
         {% endfor %}
+
     </table>
 </body>
 </html>
