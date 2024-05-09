@@ -8,106 +8,112 @@
         table { width: 100%; border-collapse: collapse; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
-        .changed { color: green; }
-        .unchanged { color: orange; }
-        .failed { color: red; }
+        .success { color: green; }
+        .no-change { color: orange; }
+        .failure { color: red; }
     </style>
 </head>
 <body>
-    <h1>System Configuration Report for {{ new_hostname | upper }}</h1>
+    <h1>System Configuration Report for {{ new_hostname }}</h1>
     <p>Date of Report: {{ ansible_date_time.iso8601 }}</p>
     <table>
         <tr>
             <th>Task</th>
-            <th>Sub Task</th>
             <th>Status</th>
             <th>Details</th>
         </tr>
         <tr>
             <td>Hostname Change</td>
+            <td class="{{ 'success' if hostname_change_output.rc|default(0) == 0 else 'failure' }}">
+                {{ 'Complete' if hostname_change_output.rc|default(0) == 0 else 'Failed' }}
+            </td>
             <td>N/A</td>
-            <td class="{{ 'changed' if hostname_change_output.rc|default(0) == 0 else 'failed' }}">
-                {{ 'Changed' if hostname_change_output.rc|default(0) == 0 else 'Failed' }}
-            </td>
-            <td>
-                {{ 'Hostname updated successfully.' if hostname_change_output.rc|default(0) == 0 else 'Hostname update failed: ' + hostname_change_output.msg|default('Unknown error') }}
-            </td>
         </tr>
         <tr>
-            <td rowspan="{{ (sudo_groups_result.results | length) + (sudo_users_result.results | length) + 1 }}">Sudoers Update</td>
-            <td>Groups Updated</td>
-            <td class="{{ 'success' if (sudo_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'no-change' }}">
-                {{ 'Changes Applied' if (sudo_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'No Changes Needed' }}
+            <td>Sudoers Update</td>
+            <td class="{{ 'success' if (sudo_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0 or sudo_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'no-change' }}">
+                {{ 'Changes Applied' if (sudo_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0 or sudo_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'No Changes Needed' }}
             </td>
             <td>
                 {% for result in sudo_groups_result.results %}
-                    {{ result.item }}<br>
+                {{ result.item }} (Group)<br>
+                {% endfor %}
+                {% for result in sudo_users_result.results %}
+                {{ result.item }} (User)<br>
                 {% endfor %}
             </td>
         </tr>
-        {% for result in sudo_groups_result.results %}
         <tr>
-            <td>{{ result.item }}</td>
-            <td class="{{ 'success' if result.changed else 'no-change' }}">
-                {{ 'Changed' if result.changed else 'No Changes Needed' }}
-            </td>
-            <td>{{ result.msg if result.changed else 'Group already present or no changes required.' }}</td>
-        </tr>
-        {% endfor %}
-        <tr>
-            <td>Users Updated</td>
-            <td class="{{ 'success' if (sudo_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'no-change' }}">
-                {{ 'Changes Applied' if (sudo_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'No Changes Needed' }}
+            <td>Access Configuration Update</td>
+            <td class="{{ 'success' if (access_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0 or access_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'no-change' }}">
+                {{ 'Changes Applied' if (access_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0 or access_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'No Changes Needed' }}
             </td>
             <td>
-                {% for result in sudo_users_result.results %}
-                    {{ result.item }}<br>
+                {% for result in access_groups_result.results %}
+                {{ result.item }} (Group)<br>
+                {% endfor %}
+                {% for result in access_users_result.results %}
+                {{ result.item }} (User)<br>
                 {% endfor %}
             </td>
         </tr>
-        {% for result in sudo_users_result.results %}
         <tr>
-            <td>{{ result.item }}</td>
-            <td class="{{ 'success' if result.changed else 'no-change' }}">
-                {{ 'Changed' if result.changed else 'No Changes Needed' }}
+            <td>Network Search Domains Configuration</td>
+            <td class="{{ 'success' if nmcli_output.changed else 'no-change' }}">
+                {{ 'Configured' if nmcli_output.changed else 'No Changes Needed' }}
             </td>
-            <td>{{ result.msg if result.changed else 'User already present or no changes required.' }}</td>
+            <td>
+                {% if nmcli_output.changed %}
+                Search Domains: {{ domain_list | join(', ') }}
+                {% else %}
+                No changes to search domains.
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td>Kernel Limit Configuration for DNF</td>
+            <td class="{{ 'success' if dnf_kernel_limit_result.changed else 'no-change' }}">
+                {{ 'Updated' if dnf_kernel_limit_result.changed else 'No Changes Needed' }}
+            </td>
+            <td>
+                Set to {{ kernel_limit }} in /etc/dnf/dnf.conf
+            </td>
+        </tr>
+        <tr>
+            <td>Kernel Limit Configuration for YUM</td>
+            <td class="{{ 'success' if yum_kernel_limit_result.changed else 'no-change' }}">
+                {{ 'Updated' if yum_kernel_limit_result.changed else 'No Changes Needed' }}
+            </td>
+            <td>
+                Set to {{ kernel_limit }} in /etc/yum.conf
+            </td>
+        </tr>
+        <!-- PAM Update Results -->
+        {% for result in pam_update_results.results %}
+        <tr>
+            <td>Update PAM configurations</td>
+            <td>{{ result.item }}</td>
+            <td class="{{ 'success' if result.changed and not result.failed else 'failure' }}">
+                {{ 'Updated' if result.changed and not result.failed else 'Failed' }}
+            </td>
+            <td>
+                {% if result.failed %}
+                Error: {{ result.msg }}
+                {% else %}
+                Change successful or no change needed.
+                {% endif %}
+            </td>
         </tr>
         {% endfor %}
         <tr>
-            <td rowspan="2">Kernel Limit Configuration</td>
-            <td>DNF</td>
-            <td class="unchanged">No Changes Needed</td>
-            <td>Set to 2 in /etc/dnf/dnf.conf</td>
+            <td>Set Nightly Cron Job</td>
+            <td class="{{ 'success' if cron_job_result.changed else 'no-change' }}">
+                {{ 'Updated' if cron_job_result.changed else 'No Changes Needed' }}
+            </td>
+            <td>
+                Cron Job: {{ cron_command }} scheduled at 00:00 every day
+            </td>
         </tr>
-        <tr>
-            <td>YUM</td>
-            <td class="unchanged">No Changes Needed</td>
-            <td>Set to 2 in /etc/yum.conf</td>
-        </tr>
-        <!-- Begin PAM configuration section -->
-        <tr>
-            <td rowspan="4">Update PAM Configurations</td>
-            <td>/etc/pam.d/atd</td>
-            <td class="failed">Failed</td>
-            <td>Error: Destination does not exist!</td>
-        </tr>
-        <tr>
-            <td>/etc/pam.d/crond</td>
-            <td class="failed">Failed</td>
-            <td>Change successful or no change needed.</td>
-        </tr>
-        <tr>
-            <td>/etc/pam.d/password-auth</td>
-            <td class="failed">Failed</td>
-            <td>Change successful or no change needed.</td>
-        </tr>
-        <tr>
-            <td>/etc/pam.d/system-auth</td>
-            <td class="failed">Failed</td>
-            <td>Change successful or no change needed.</td>
-        </tr>
-        <!-- Other tasks can be similarly structured -->
     </table>
 </body>
 </html>
