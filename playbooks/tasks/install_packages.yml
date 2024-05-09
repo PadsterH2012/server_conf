@@ -4,5 +4,5 @@
     name: "{{ item }}"
     state: present
   loop:
-    - nfs_utils
+    - nfs-utils
   become: yes
