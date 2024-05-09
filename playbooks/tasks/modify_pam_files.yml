@@ -12,3 +12,7 @@
   ignore_errors: yes
   register: pam_update_results
   become: yes
+
+- name: Debug pam_update_results
+  ansible.builtin.debug:
+    var: pam_update_results
