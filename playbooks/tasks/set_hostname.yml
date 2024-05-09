@@ -8,10 +8,11 @@
     name: "{{ new_hostname | upper }}"
   register: hostname_change_output
   ignore_errors: true
+  failed_when: hostname_change_output is failed
 
 - name: Set default result if hostname change task resulted in no changes
   ansible.builtin.set_fact:
     hostname_change_output:
       skipped: true
       msg: "Hostname change was skipped as it is already set correctly."
-  when: not hostname_change_output.changed
+  when: hostname_change_output is skipped or not hostname_change_output.changed
