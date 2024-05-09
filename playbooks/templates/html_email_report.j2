@@ -68,10 +68,10 @@
         <tr>
             <td>Hostname Change</td>
             <td>N/A</td>
-            <td class="{% if hostname_change_output.rc is defined and hostname_change_output.rc == 0 %}OK{% elif hostname_change_output.rc is defined %}Changed{% else %}Failed{% endif %}">
-                {% if hostname_change_output.rc is defined and hostname_change_output.rc == 0 %}OK{% elif hostname_change_output.rc is defined %}Changed{% else %}Failed{% endif %}
+            <td class="{{ 'OK' if hostname_change_output.skipped or not hostname_change_output.changed else 'Changed' }}">
+                {{ 'OK' if hostname_change_output.skipped or not hostname_change_output.changed else 'Changed' }}
             </td>
-            <td>Hostname updated successfully.</td>
+            <td>{{ hostname_change_output.msg | default('Hostname update was not necessary.') }}</td>
         </tr>
         <tr>
             <td rowspan="2">Sudoers Update</td>
