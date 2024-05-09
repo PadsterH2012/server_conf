@@ -2,7 +2,7 @@
   ansible.builtin.command:
     cmd: hostname
   register: current_hostname
-  changed_when: false  # This ensures it does not falsely report a "change".
+  changed_when: false  # Preventing false "changed" status.
 
 - name: Change the hostname
   ansible.builtin.hostname:
@@ -10,9 +10,18 @@
   register: hostname_change_output
   ignore_errors: true
 
+- name: Ensure all attributes are defined
+  ansible.builtin.set_fact:
+    hostname_change_output:
+      skipped: "{{ hostname_change_output.skipped | default(false) }}"
+      changed: "{{ hostname_change_output.changed | default(false) }}"
+      msg: "{{ hostname_change_output.msg | default('Hostname change not required or already set correctly.') }}"
+  when: hostname_change_output is defined
+
 - name: Set default result if hostname change task resulted in no changes
   ansible.builtin.set_fact:
     hostname_change_output:
       skipped: true
+      changed: false
       msg: "Hostname change was skipped as it is already set correctly."
   when: not hostname_change_output.changed
