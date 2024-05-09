@@ -32,6 +32,7 @@
             <td>Hostname updated successfully.</td>
         </tr>
         <tr>
+            <td>Sudoers</td>
             <td rowspan="{{ (sudo_groups_result.results | length) + (sudo_users_result.results | length) }}">Sudoers Update</td>
             <td>Groups</td>
             <td class="{{ 'success' if (sudo_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'no-change' }}">
