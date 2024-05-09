@@ -8,9 +8,9 @@
         table { width: 100%; border-collapse: collapse; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
-        .success { color: green; }
-        .no-change { color: orange; }
-        .failure { color: red; }
+        .changed { color: green; }
+        .unchanged { color: orange; }
+        .failed { color: red; }
     </style>
 </head>
 <body>
@@ -23,52 +23,48 @@
             <th>Status</th>
             <th>Details</th>
         </tr>
-        <!-- Hostname Change -->
         <tr>
             <td>Hostname Change</td>
             <td>N/A</td>
-            <td class="{{ 'success' if hostname_change_output.rc|default(0) == 0 else 'failure' }}">
+            <td class="{{ 'changed' if hostname_change_output.rc|default(0) == 0 else 'failed' }}">
                 {{ 'Complete' if hostname_change_output.rc|default(0) == 0 else 'Failed' }}
             </td>
-            <td>Hostname updated successfully.</td>
+            <td>N/A</td>
         </tr>
-        <!-- Sudoers Update -->
         <tr>
-            <td rowspan="{{ (sudo_groups_result.results | length) + (sudo_users_result.results | length) }}">Sudoers Update</td>
-            <td>Groups</td>
-            <td class="{{ 'success' if (sudo_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'no-change' }}">
-                {{ 'Changes Applied' if (sudo_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'No Changes Needed' }}
-            </td>
-            <td>
-                {% for result in sudo_groups_result.results %}
-                {{ result.item }}<br>
-                {% endfor %}
-            </td>
+            <td rowspan="2">Kernel Limit Configuration</td>
+            <td>DNF</td>
+            <td class="unchanged">No Changes Needed</td>
+            <td>Set to 2 in /etc/dnf/dnf.conf</td>
         </tr>
-        <!-- Detail rows for each group -->
-        {% for result in sudo_groups_result.results %}
         <tr>
-            <td>{{ result.item }} (Group)</td>
-            <td class="{{ 'success' if result.changed else 'no-change' }}">
-                {{ 'Changed' if result.changed else 'No Changes Needed' }}
-            </td>
-            <td>{{ result.msg if result.changed else 'Group already present or no changes required.' }}</td>
+            <td>YUM</td>
+            <td class="unchanged">No Changes Needed</td>
+            <td>Set to 2 in /etc/yum.conf</td>
         </tr>
-        {% endfor %}
-        <!-- Access Configuration Update -->
+        <!-- Begin PAM configuration section -->
         <tr>
-            <td rowspan="{{ (access_groups_result.results | length) + (access_users_result.results | length) }}">Access Configuration Update</td>
-            <td>Users</td>
-            <td class="{{ 'success' if (access_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'no-change' }}">
-                {{ 'Changes Applied' if (access_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'No Changes Needed' }}
-            </td>
-            <td>
-                {% for result in access_users_result.results %}
-                {{ result.item }} (User)<br>
-                {% endfor %}
-            </td>
+            <td rowspan="4">Update PAM Configurations</td>
+            <td>/etc/pam.d/atd</td>
+            <td class="failed">Failed</td>
+            <td>Error: Destination does not exist!</td>
         </tr>
-        <!-- Other tasks continue similarly -->
+        <tr>
+            <td>/etc/pam.d/crond</td>
+            <td class="failed">Failed</td>
+            <td>Change successful or no change needed.</td>
+        </tr>
+        <tr>
+            <td>/etc/pam.d/password-auth</td>
+            <td class="failed">Failed</td>
+            <td>Change successful or no change needed.</td>
+        </tr>
+        <tr>
+            <td>/etc/pam.d/system-auth</td>
+            <td class="failed">Failed</td>
+            <td>Change successful or no change needed.</td>
+        </tr>
+        <!-- Other tasks can be similarly structured -->
     </table>
 </body>
 </html>
