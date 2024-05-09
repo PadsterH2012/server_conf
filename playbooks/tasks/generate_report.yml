@@ -4,3 +4,7 @@
     src: templates/html_email_report.j2
     dest: "/tmp/{{ new_hostname }}_report.html"
   delegate_to: 10.203.20.199  # Ensure this runs on the remote host
+  vars:
+    new_hostname: "{{ new_hostname }}"
+    hostname_change_result: "{{ hostname_change_output }}"
+    other_task_status: "Additional details here"
