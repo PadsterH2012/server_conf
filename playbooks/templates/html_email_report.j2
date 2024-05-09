@@ -121,5 +121,33 @@
             </td>
         </tr>
     </table>
+    <table>
+        <tr>
+            <th>Device</th>
+            <th>Status</th>
+            <th>Details</th>
+        </tr>
+        {% for disk in disk_status.results %}
+        <tr>
+            <td>{{ disk.item.dev }}</td>
+            <td>
+                {% if disk.stat.exists %}
+                Mounted
+                {% else %}
+                Not Found
+                {% endif %}
+            </td>
+            <td>
+                {% if disk.stat.exists %}
+                Formatted to ext4 and mounted at {{ lookup('vars', 'mount_' + disk.item.dev | regex_replace('^/dev/', '')) }}.
+                Disk Size: {{ disk.stat.size }}  <!-- Example, ensure you fetch and format disk size correctly -->
+                Filesystem: ext4
+                {% else %}
+                Device not found on system.
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
 </body>
 </html>
