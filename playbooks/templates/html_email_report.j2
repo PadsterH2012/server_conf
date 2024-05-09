@@ -38,6 +38,7 @@
 <body>
     <h1>System Configuration Report for {{ new_hostname | upper }}</h1>
     <p>Date of Report: {{ detailed_human_readable_date }}</p>
+    <p>Time taken for the playbook to run: {{ duration_display }}</p>
     <table>
         <tr>
             <th>Property</th>
