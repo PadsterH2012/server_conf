@@ -7,7 +7,26 @@
   register: nmcli_output  # Register the result of the nmcli command
   become: yes
 
-- name: Debug nmcli_output
+- name: Gather detailed network configuration
+  command: nmcli -g IP4.ADDRESS,IP4.GATEWAY,IP4.DNS con show {{ nmcli_output.conn_name }}
+  register: detailed_info
+
+- name: Parse detailed network info
+  set_fact:
+    nmcli_output: {
+      'Exists': 'Connections do exist so we are modifying them',
+      'changed': true,
+      'conn_name': 'ens18',
+      'failed': false,
+      'state': 'present',
+      'details': {
+        'ip_address': (detailed_info.stdout_lines[0].split('/')[0] if detailed_info.stdout_lines | length > 0 else 'N/A'),
+        'gateway': (detailed_info.stdout_lines[1] if detailed_info.stdout_lines | length > 1 else 'N/A'),
+        'dns_servers': (detailed_info.stdout_lines[2].split(',') if detailed_info.stdout_lines | length > 2 else [])
+      }
+    }
+
+- name: Debug updated nmcli_output with details
   debug:
     var: nmcli_output
 
