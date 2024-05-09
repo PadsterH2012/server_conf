@@ -154,17 +154,17 @@
             </td>
         </tr>
         <tr>
-            <td rowspan="2">Kernel Limit Configuration</td> <!-- Main task spanning two rows -->
-            <td>DNF</td> <!-- Subtask 1 -->
-            <td class="{{ 'success' if dnf_kernel_limit_result.changed else 'no-change' }}">
-                {{ 'Updated' if dnf_kernel_limit_result.changed else 'No Changes Needed' }}
+            <td rowspan="2">Kernel Limit Configuration</td>
+            <td>DNF</td>
+            <td class="{{ 'Failed' if dnf_kernel_limit_failed else 'Changed' if dnf_kernel_limit_result.changed else 'OK' }}">
+                {{ 'Failed' if dnf_kernel_limit_failed else 'Changed' if dnf_kernel_limit_result.changed else 'OK' }}
             </td>
             <td>Set to {{ kernel_limit }} in /etc/dnf/dnf.conf</td>
         </tr>
         <tr>
-            <td>YUM</td> <!-- Subtask 2 -->
-            <td class="{{ 'success' if yum_kernel_limit_result.changed else 'no-change' }}">
-                {{ 'Updated' if yum_kernel_limit_result.changed else 'No Changes Needed' }}
+            <td>YUM</td>
+            <td class="{{ 'Failed' if yum_kernel_limit_failed else 'Changed' if yum_kernel_limit_result.changed else 'OK' }}">
+                {{ 'Failed' if yum_kernel_limit_failed else 'Changed' if yum_kernel_limit_result.changed else 'OK' }}
             </td>
             <td>Set to {{ kernel_limit }} in /etc/yum.conf</td>
         </tr>
