@@ -32,8 +32,8 @@
             <td>Hostname updated successfully.</td>
         </tr>
         <tr>
-            <td>Sudoers</td>
-            <td rowspan="{{ (sudo_groups_result.results | length) + (sudo_users_result.results | length) }}">N/A</td>
+            <td rowspan="5">Sudoers Update</td>
+            <td>Groups</td>
             <td class="{{ 'success' if (sudo_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'no-change' }}">
                 {{ 'Changes Applied' if (sudo_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'No Changes Needed' }}
             </td>
@@ -43,9 +43,21 @@
                 {% endfor %}
             </td>
         </tr>
+        <!-- Similar rows for users -->
         <tr>
-            <td>Access Conf</td>
-            <td>N/A</td>
+            <td>Users</td>
+            <td class="{{ 'success' if (sudo_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'no-change' }}">
+                {{ 'Changes Applied' if (sudo_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'No Changes Needed' }}
+            </td>
+            <td>
+                {% for result in sudo_users_result.results %}
+                {{ result.item }}<br>
+                {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <td rowspan="2">Access Configuration Update</td>
+            <td>Groups and Users</td>
             <td class="{{ 'success' if (access_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0 or access_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'no-change' }}">
                 {{ 'Changes Applied' if (access_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0 or access_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'No Changes Needed' }}
             </td>
@@ -57,7 +69,7 @@
                 {{ result.item }} (User)<br>
                 {% endfor %}
             </td>
-{#         </tr>
+        </tr>
         <tr>
             <td>Network Search Domains Configuration</td>
             <td class="{{ 'success' if nmcli_output.changed else 'no-change' }}">
