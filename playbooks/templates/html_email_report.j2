@@ -57,6 +57,19 @@
                 {% endfor %}
             </td>
         </tr>
+        <tr>
+            <td>Network Search Domains Configuration</td>
+            <td class="{{ 'success' if nmcli_output.changed else 'no-change' }}">
+                {{ 'Configured' if nmcli_output.changed else 'No Changes Needed' }}
+            </td>
+            <td>
+                {% if nmcli_output.changed %}
+                Search Domains: {{ domain_list | join(', ') }}
+                {% else %}
+                No changes to search domains.
+                {% endif %}
+            </td>
+        </tr>
     </table>
 </body>
 </html>
