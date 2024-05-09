@@ -29,3 +29,10 @@
       register: mount_result
       loop: "{{ disk_status.results }}"
       when: item.stat.exists
+      
+    - name: Gather filesystem details
+      ansible.builtin.shell:
+        cmd: "df -h | grep {{ item.item.dev }}"
+      register: disk_sizes
+      loop: "{{ disk_status.results }}"
+      when: item.stat.exists
