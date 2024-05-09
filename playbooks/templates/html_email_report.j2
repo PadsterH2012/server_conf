@@ -29,18 +29,30 @@
     <p>Date of Report: {{ ansible_date_time.iso8601 }}</p>
     <table>
         <tr>
-            <th>Connection Name</th>
-            <th>IP Address</th>
-            <th>Gateway</th>
-            <th>DNS Servers</th>
+            <th>Property</th>
+            <th>Value</th>
         </tr>
         <tr>
-            <td>{{ nmcli_output.conn_name }}</td>
+            <td>IP Address</td>
             <td>{{ nmcli_output.details.ip_address }}</td>
+        </tr>
+        <tr>
+            <td>Subnet</td>
+            <td>{{ nmcli_output.details.subnet }}</td>
+        </tr>
+        <tr>
+            <td>Gateway</td>
             <td>{{ nmcli_output.details.gateway }}</td>
-            <td>{{ nmcli_output.details.dns_servers | join(', ') }}</td>
+        </tr>
+        <tr>
+            <td>DNS Servers</td>
+            <td>
+                {{ nmcli_output.details.dns_servers[0] }}<br>
+                {{ nmcli_output.details.dns_servers[1] }}
+            </td>
         </tr>
     </table>
+
     <table>
         <tr>
             <th>Task</th>
