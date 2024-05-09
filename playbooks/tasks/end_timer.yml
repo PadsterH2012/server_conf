@@ -1,10 +1,24 @@
+- name: Artificial delay for testing
+  pause:
+    seconds: 5
+
 - name: Capture end time and calculate duration
   set_fact:
     end_time: "{{ ansible_date_time.epoch }}"
     duration: "{{ (ansible_date_time.epoch | int) - (start_time | int) }}"
 
+- name: Debug end time
+  debug:
+    msg: "End Time: {{ end_time }}"
+
+- name: Debug duration
+  debug:
+    msg: "Duration (seconds): {{ duration }}"
+
 - name: Convert duration to minutes and seconds
   set_fact:
-    duration_display: "{{ ((duration | int) // 60) }} minutes and {{ ((duration | int) % 60) }} seconds"
+    duration_display: "{{ (duration | int // 60) }} minutes and {{ (duration | int % 60) }} seconds"
 
-
+- name: Display duration in debug message
+  debug:
+    msg: "Time taken for the playbook to run: {{ duration_display }}"
