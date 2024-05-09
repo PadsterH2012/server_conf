@@ -124,22 +124,20 @@
     <table>
         <tr>
             <th>Device</th>
-            <th>Status</th>
-            <th>Details</th>
+            <th>Mount Point</th>
+            <th>Filesystem</th>
+            <th>Size</th>
         </tr>
         {% for disk in disk_status.results if disk.stat.exists %}
         <tr>
             <td>{{ disk.item.dev }}</td>
-            <td>Mounted</td>
-            <td>
-                Formatted to ext4 and mounted at {{ lookup('vars', 'mount_' + disk.item.dev | regex_replace('^/dev/', '')) }}.
-                <!-- Additional details like disk size and filesystem type could be included if available -->
-                Filesystem: ext4
-            </td>
+            <td>{{ lookup('vars', 'mount_' + disk.item.dev | regex_replace('^/dev/', '')) }}</td>
+            <td>ext4</td>
+            <td>{{ disk_sizes.results | selectattr('item.item.dev', 'equalto', disk.item.dev) | map(attribute='stdout') | first }}</td>
         </tr>
         {% else %}
         <tr>
-            <td colspan="3">No applicable devices found or all specified devices already configured.</td>
+            <td colspan="4">No applicable devices found or all specified devices already configured.</td>
         </tr>
         {% endfor %}
     </table>
