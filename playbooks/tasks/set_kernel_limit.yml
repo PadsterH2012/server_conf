@@ -1,3 +1,8 @@
+- name: Initialize failure flags for kernel limits
+  set_fact:
+    dnf_kernel_limit_failed: false
+    yum_kernel_limit_failed: false
+
 - name: Set kernel limit in dnf.conf
   ansible.builtin.lineinfile:
     path: /etc/dnf/dnf.conf
@@ -5,7 +10,13 @@
     line: "installonly_limit={{ kernel_limit }}"
     create: yes
   register: dnf_kernel_limit_result
+  ignore_errors: true
   become: yes
+
+- name: Set failure flag if dnf command failed
+  set_fact:
+    dnf_kernel_limit_failed: true
+  when: dnf_kernel_limit_result is failed
 
 - name: Set kernel limit in yum.conf
   ansible.builtin.lineinfile:
@@ -14,4 +25,10 @@
     line: "installonly_limit={{ kernel_limit }}"
     create: yes
   register: yum_kernel_limit_result
+  ignore_errors: true
   become: yes
+
+- name: Set failure flag if yum command failed
+  set_fact:
+    yum_kernel_limit_failed: true
+  when: yum_kernel_limit_result is failed
