@@ -70,7 +70,7 @@
                 {% endfor %}
             </td>
         </tr>
-        <tr>
+{#         <tr>
             <td>Network Search Domains Configuration</td>
             <td class="{{ 'success' if nmcli_output.changed else 'no-change' }}">
                 {{ 'Configured' if nmcli_output.changed else 'No Changes Needed' }}
