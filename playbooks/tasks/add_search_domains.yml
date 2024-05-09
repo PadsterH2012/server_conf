@@ -1,8 +1,8 @@
----
 - name: Add search domains to network card
   ansible.builtin.nmcli:
-    conn_name: "{{ adapter_name }}"  # Use the correct network connection name
+    conn_name: "{{ adapter_name }}"  # Ensure this is set to the correct network adapter name
     type: ethernet
     dns4_search: "{{ domain_list | join(' ') }}"
     state: present
+  register: nmcli_output  # Register the result of the nmcli command
   become: yes
