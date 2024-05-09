@@ -98,8 +98,8 @@
         <tr>
             <td>Update PAM configurations</td>
             <td>{{ result.item }}</td>
-            <td class="{{ 'success' if result.changed else 'failure' }}">
-                {{ 'Updated' if result.changed else 'Failed' }}
+            <td class="{{ 'success' if result.changed and not result.failed else 'failure' }}">
+                {{ 'Updated' if result.changed and not result.failed else 'Failed' }}
             </td>
             <td>
                 {% if result.failed %}
