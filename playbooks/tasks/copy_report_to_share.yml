@@ -1,7 +1,7 @@
 - name: Mount NFS share
   ansible.builtin.mount:
     path: /mnt/nfs_share
-    src: 10.203.20.3:/mnt/raid1/scripts
+    src: 10.203.20.3:/mnt/raid1/scripts/reports
     fstype: nfs
     opts: "nfsvers=4"
     state: mounted
