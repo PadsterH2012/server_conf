@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>System Configuration Report</title>
     <style>
+        /* Existing styles */
         body { font-family: Arial, sans-serif; margin: 20px; }
         table { width: 100%; border-collapse: collapse; }
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
@@ -11,7 +12,17 @@
         .success { color: green; }
         .no-change { color: orange; }
         .failure { color: red; }
+        /* Style to remove bullet points */
+        .domain-list { 
+            list-style-type: none; /* Remove bullet points */
+            padding: 0; /* Remove padding */
+            margin: 0; /* Remove margins */
+        }
+        .domain-list li {
+            line-height: 1.6; /* Adjust line height for readability */
+        }
     </style>
+
 </head>
 <body>
     <h1>System Configuration Report for {{ new_hostname | upper }}</h1>
@@ -85,7 +96,7 @@
             </td>
             <td>
                 {% if nmcli_output.changed %}
-                <ul>
+                <ul class="domain-list">
                     {% for domain in domain_list %}
                     <li>{{ domain }}</li>
                     {% endfor %}
@@ -95,7 +106,6 @@
                 {% endif %}
             </td>
         </tr>
-
     </table>
 </body>
 </html>
