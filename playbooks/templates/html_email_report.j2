@@ -36,7 +36,7 @@
             <td>IP Address</td>
             <td>{{ nmcli_output.details.ip_address }}</td>
         </tr>
-        {% if 'subnet' in nmcli_output.details %}
+        {% if nmcli_output.details.subnet is defined %}
         <tr>
             <td>Subnet</td>
             <td>{{ nmcli_output.details.subnet }}</td>
@@ -46,15 +46,17 @@
             <td>Gateway</td>
             <td>{{ nmcli_output.details.gateway }}</td>
         </tr>
+        {% if nmcli_output.details.dns_servers %}
         <tr>
             <td>DNS Servers</td>
             <td>
-                {{ nmcli_output.details.dns_servers[0] }}<br>
-                {{ nmcli_output.details.dns_servers[1] }}
+                {% for dns_server in nmcli_output.details.dns_servers %}
+                {{ dns_server }}<br>
+                {% endfor %}
             </td>
         </tr>
+        {% endif %}
     </table>
-
 
     <table>
         <tr>
