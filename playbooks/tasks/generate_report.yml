@@ -1,4 +1,15 @@
 ---
+- name: Set detailed human-readable date
+  set_fact:
+    detailed_human_readable_date: >
+      {{
+        ansible_date_time.month | int | regex_replace("^.*$", "January February March April May June July August September October November December".split()[ansible_date_time.month | int - 1])
+      }}
+      {{ ansible_date_time.day | int }},
+      {{ ansible_date_time.year }}
+      {{ ansible_date_time.hour }}:{{ ansible_date_time.minute }}:{{ ansible_date_time.second }}
+
+
 - name: Generate HTML report
   ansible.builtin.template:
     src: templates/html_email_report.j2
