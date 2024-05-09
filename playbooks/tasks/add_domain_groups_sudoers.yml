@@ -12,7 +12,7 @@
 
 - name: Capture failure for groups
   set_fact:
-    sudo_groups_failed: true
+    sudo_groups_failed: "Failed"
   when: sudo_groups_result is failed
 
 - name: Add users to sudoers
@@ -28,5 +28,5 @@
 
 - name: Capture failure for users
   set_fact:
-    sudo_users_failed: true
+    sudo_users_failed: "Failed"
   when: sudo_users_result is failed
