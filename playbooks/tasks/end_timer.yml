@@ -2,6 +2,10 @@
   pause:
     seconds: 5
 
+- name: Re-gather facts to update the current time
+  setup:
+    filter: ansible_date_time
+
 - name: Capture end time and calculate duration
   set_fact:
     end_time: "{{ ansible_date_time.epoch }}"
