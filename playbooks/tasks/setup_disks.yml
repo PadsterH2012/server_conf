@@ -1,4 +1,3 @@
----
 - name: Check and prepare multiple disks with dynamic mount points
   vars:
     devices:
@@ -16,6 +15,7 @@
       ansible.builtin.filesystem:
         fstype: ext4
         dev: "{{ item.item.dev }}"
+      register: format_result
       loop: "{{ disk_status.results }}"
       when: item.stat.exists
 
@@ -26,5 +26,6 @@
         fstype: ext4
         state: mounted
         opts: defaults
+      register: mount_result
       loop: "{{ disk_status.results }}"
       when: item.stat.exists
