@@ -1,4 +1,3 @@
----
 - name: Set nightly cron job
   ansible.builtin.cron:
     name: "Nightly Update Job"
@@ -7,3 +6,5 @@
     minute: 0
     user: "{{ cron_user | default('root') }}"
     state: present
+  register: cron_job_result  # Register the result of the cron job setup
+  become: yes
