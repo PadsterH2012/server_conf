@@ -1,0 +1,4 @@
+- name: Capture end time and calculate duration
+  set_fact:
+    end_time: "{{ ansible_date_time.epoch }}"
+    duration: "{{ (ansible_date_time.epoch | int) - (start_time | int) }}"
