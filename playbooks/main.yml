@@ -11,32 +11,32 @@
         - name: Install Packages
           include_tasks: tasks/install_packages.yml
           
-        - name: Update /etc/hosts File
-          include_tasks: tasks/update_hosts.yml
+        # - name: Update /etc/hosts File
+        #   include_tasks: tasks/update_hosts.yml
           
-        - name: Set Kernel Limit
-          include_tasks: tasks/set_kernel_limit.yml
+        # - name: Set Kernel Limit
+        #   include_tasks: tasks/set_kernel_limit.yml
 
-        - name: Set System Timezone to UTC
-          include_tasks: tasks/set_timezone.yml
+        # - name: Set System Timezone to UTC
+        #   include_tasks: tasks/set_timezone.yml
 
-        - name: Add Search Domains to Network Card
-          include_tasks: tasks/add_search_domains.yml
+        # - name: Add Search Domains to Network Card
+        #   include_tasks: tasks/add_search_domains.yml
 
-        - name: Ensure PAM files are configured for AD integration
-          include_tasks: tasks/modify_pam_files.yml
+        # - name: Ensure PAM files are configured for AD integration
+        #   include_tasks: tasks/modify_pam_files.yml
 
-        - name: Add Domain Groups to Sudoers
-          include_tasks: tasks/add_domain_groups_sudoers.yml
+        # - name: Add Domain Groups to Sudoers
+        #   include_tasks: tasks/add_domain_groups_sudoers.yml
 
-        - name: Configure Access Control for Security Groups
-          include_tasks: tasks/configure-access-control.yml
+        # - name: Configure Access Control for Security Groups
+        #   include_tasks: tasks/configure-access-control.yml
 
-        - name: Include nightly cron job setup
-          include_tasks: tasks/set_nightly_cron_job.yml
+        # - name: Include nightly cron job setup
+        #   include_tasks: tasks/set_nightly_cron_job.yml
 
-        - name: Setup and Mount attached disks
-          include_tasks: tasks/setup_disks.yml
+        # - name: Setup and Mount attached disks
+        #   include_tasks: tasks/setup_disks.yml
 
         - name: Generate Report
           include_tasks: tasks/generate_report.yml
