@@ -7,6 +7,9 @@
     - block:
         - name: Include Set Hostname Tasks
           include_tasks: tasks/set_hostname.yml
+
+        - name: Install Packages
+          include_tasks: tasks/install_packages.yml
           
         - name: Update /etc/hosts File
           include_tasks: tasks/update_hosts.yml
