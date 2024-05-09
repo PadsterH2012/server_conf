@@ -1,3 +1,8 @@
+- name: Initialize failure flags
+  set_fact:
+    sudo_groups_failed: false
+    sudo_users_failed: false
+
 - name: Add domain groups to sudoers
   ansible.builtin.lineinfile:
     path: /etc/sudoers
@@ -12,7 +17,7 @@
 
 - name: Capture failure for groups
   set_fact:
-    sudo_groups_failed: "Failed"
+    sudo_groups_failed: true
   when: sudo_groups_result is failed
 
 - name: Add users to sudoers
@@ -28,5 +33,5 @@
 
 - name: Capture failure for users
   set_fact:
-    sudo_users_failed: "Failed"
+    sudo_users_failed: true
   when: sudo_users_result is failed
