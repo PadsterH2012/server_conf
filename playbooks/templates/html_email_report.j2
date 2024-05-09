@@ -10,6 +10,7 @@
         th { background-color: #f2f2f2; }
         .success { color: green; }
         .failure { color: red; }
+        .no-change { color: orange; } /* Styling for no changes needed */
     </style>
 </head>
 <body>
@@ -25,9 +26,34 @@
             <td class="{{ 'success' if hostname_change_output.rc|default(0) == 0 else 'failure' }}">
                 {{ 'Complete' if hostname_change_output.rc|default(0) == 0 else 'Failed' }}
             </td>
-
         </tr>
-        <!-- Add more rows as needed for other tasks -->
+    </table>
+    <br>
+    <h2>Sudoers Update Report</h2>
+    <table>
+        <tr>
+            <th>Entity</th>
+            <th>Action</th>
+            <th>Status</th>
+        </tr>
+        {% for result in sudo_groups_result.results %}
+        <tr>
+            <td>{{ result.item }}</td>
+            <td>Add to sudoers (Group)</td>
+            <td class="{{ 'success' if result.changed else 'no-change' }}">
+                {{ 'Added' if result.changed else 'Already present' }}
+            </td>
+        </tr>
+        {% endfor %}
+        {% for result in sudo_users_result.results %}
+        <tr>
+            <td>{{ result.item }}</td>
+            <td>Add to sudoers (User)</td>
+            <td class="{{ 'success' if result.changed else 'no-change' }}">
+                {{ 'Added' if result.changed else 'Already present' }}
+            </td>
+        </tr>
+        {% endfor %}
     </table>
 </body>
 </html>
