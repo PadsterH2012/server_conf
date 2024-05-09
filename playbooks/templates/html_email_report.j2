@@ -25,10 +25,11 @@
         </tr>
         <tr>
             <td>Hostname Change</td>
+            <td>N/A</td>
             <td class="{{ 'success' if hostname_change_output.rc|default(0) == 0 else 'failure' }}">
                 {{ 'Complete' if hostname_change_output.rc|default(0) == 0 else 'Failed' }}
             </td>
-            <td>N/A</td>
+            <td>Hostname updated successfully.</td>
         </tr>
         <tr>
             <td>Sudoers Update</td>
