@@ -19,56 +19,101 @@
     <table>
         <tr>
             <th>Task</th>
-            <th>Sub Task</th>
             <th>Status</th>
             <th>Details</th>
         </tr>
-        <!-- Hostname Change -->
         <tr>
             <td>Hostname Change</td>
-            <td>N/A</td>
             <td class="{{ 'success' if hostname_change_output.rc|default(0) == 0 else 'failure' }}">
                 {{ 'Complete' if hostname_change_output.rc|default(0) == 0 else 'Failed' }}
             </td>
-            <td>Hostname updated successfully.</td>
+            <td>N/A</td>
         </tr>
-        <!-- Sudoers Update -->
         <tr>
-            <td rowspan="{{ (sudo_groups_result.results | length) + (sudo_users_result.results | length) }}">Sudoers Update</td>
-            <td>Groups</td>
-            <td class="{{ 'success' if (sudo_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'no-change' }}">
-                {{ 'Changes Applied' if (sudo_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'No Changes Needed' }}
+            <td>Sudoers Update</td>
+            <td class="{{ 'success' if (sudo_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0 or sudo_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'no-change' }}">
+                {{ 'Changes Applied' if (sudo_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0 or sudo_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'No Changes Needed' }}
             </td>
             <td>
                 {% for result in sudo_groups_result.results %}
-                {{ result.item }}<br>
+                {{ result.item }} (Group)<br>
+                {% endfor %}
+                {% for result in sudo_users_result.results %}
+                {{ result.item }} (User)<br>
                 {% endfor %}
             </td>
         </tr>
-        <!-- Detail rows for each group -->
-        {% for result in sudo_groups_result.results %}
         <tr>
-            <td>{{ result.item }} (Group)</td>
-            <td class="{{ 'success' if result.changed else 'no-change' }}">
-                {{ 'Changed' if result.changed else 'No Changes Needed' }}
-            </td>
-            <td>{{ result.msg if result.changed else 'Group already present or no changes required.' }}</td>
-        </tr>
-        {% endfor %}
-        <!-- Access Configuration Update -->
-        <tr>
-            <td rowspan="{{ (access_groups_result.results | length) + (access_users_result.results | length) }}">Access Configuration Update</td>
-            <td>Users</td>
-            <td class="{{ 'success' if (access_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'no-change' }}">
-                {{ 'Changes Applied' if (access_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'No Changes Needed' }}
+            <td>Access Configuration Update</td>
+            <td class="{{ 'success' if (access_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0 or access_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'no-change' }}">
+                {{ 'Changes Applied' if (access_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0 or access_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'No Changes Needed' }}
             </td>
             <td>
+                {% for result in access_groups_result.results %}
+                {{ result.item }} (Group)<br>
+                {% endfor %}
                 {% for result in access_users_result.results %}
                 {{ result.item }} (User)<br>
                 {% endfor %}
             </td>
         </tr>
-        <!-- Other tasks continue similarly -->
+        <tr>
+            <td>Network Search Domains Configuration</td>
+            <td class="{{ 'success' if nmcli_output.changed else 'no-change' }}">
+                {{ 'Configured' if nmcli_output.changed else 'No Changes Needed' }}
+            </td>
+            <td>
+                {% if nmcli_output.changed %}
+                Search Domains: {{ domain_list | join(', ') }}
+                {% else %}
+                No changes to search domains.
+                {% endif %}
+            </td>
+        </tr>
+        <tr>
+            <td>Kernel Limit Configuration for DNF</td>
+            <td class="{{ 'success' if dnf_kernel_limit_result.changed else 'no-change' }}">
+                {{ 'Updated' if dnf_kernel_limit_result.changed else 'No Changes Needed' }}
+            </td>
+            <td>
+                Set to {{ kernel_limit }} in /etc/dnf/dnf.conf
+            </td>
+        </tr>
+        <tr>
+            <td>Kernel Limit Configuration for YUM</td>
+            <td class="{{ 'success' if yum_kernel_limit_result.changed else 'no-change' }}">
+                {{ 'Updated' if yum_kernel_limit_result.changed else 'No Changes Needed' }}
+            </td>
+            <td>
+                Set to {{ kernel_limit }} in /etc/yum.conf
+            </td>
+        </tr>
+        <!-- PAM Update Results -->
+        {% for result in pam_update_results.results %}
+        <tr>
+            <td>Update PAM configurations</td>
+            <td>{{ result.item }}</td>
+            <td class="{{ 'success' if result.changed and not result.failed else 'failure' }}">
+                {{ 'Updated' if result.changed and not result.failed else 'Failed' }}
+            </td>
+            <td>
+                {% if result.failed %}
+                Error: {{ result.msg }}
+                {% else %}
+                Change successful or no change needed.
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td>Set Nightly Cron Job</td>
+            <td class="{{ 'success' if cron_job_result.changed else 'no-change' }}">
+                {{ 'Updated' if cron_job_result.changed else 'No Changes Needed' }}
+            </td>
+            <td>
+                Cron Job: {{ cron_command }} scheduled at 00:00 every day
+            </td>
+        </tr>
     </table>
 </body>
 </html>
