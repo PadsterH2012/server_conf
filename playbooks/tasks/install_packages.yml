@@ -1,0 +1,6 @@
+---
+- name: Ensure NFS utilities are installed (CentOS/RHEL)
+  ansible.builtin.yum:
+    name: nfs-utils
+    state: present
+  when: ansible_os_family == "RedHat"
