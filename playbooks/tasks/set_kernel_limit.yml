@@ -1,10 +1,10 @@
----
 - name: Set kernel limit in dnf.conf
   ansible.builtin.lineinfile:
     path: /etc/dnf/dnf.conf
     regexp: '^installonly_limit='
     line: "installonly_limit={{ kernel_limit }}"
     create: yes
+  register: dnf_kernel_limit_result
   become: yes
 
 - name: Set kernel limit in yum.conf
@@ -13,4 +13,5 @@
     regexp: '^installonly_limit='
     line: "installonly_limit={{ kernel_limit }}"
     create: yes
+  register: yum_kernel_limit_result
   become: yes
