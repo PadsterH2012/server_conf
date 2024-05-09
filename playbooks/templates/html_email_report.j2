@@ -44,6 +44,10 @@
             <th>Value</th>
         </tr>
         <tr>
+            <td>Operating System</td>
+            <td colspan="3">{{ ansible_facts['distribution'] }} {{ ansible_facts['distribution_version'] }}</td>
+        </tr>
+        <tr>
             <td>IP Address</td>
             <td>{{ nmcli_output.details.ip_address }}</td>
         </tr>
