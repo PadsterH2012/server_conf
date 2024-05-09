@@ -1,6 +1,8 @@
 ---
-- name: Ensure NFS utilities are installed (CentOS/RHEL)
+- name: Install multiple packages on RHEL/CentOS
   ansible.builtin.yum:
-    name: nfs-utils
+    name: "{{ item }}"
     state: present
-  when: ansible_os_family == "RedHat"
+  loop:
+    - nfs_utils
+  become: yes
