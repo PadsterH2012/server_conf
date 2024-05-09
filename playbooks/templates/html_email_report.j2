@@ -32,7 +32,7 @@
             <td>Hostname updated successfully.</td>
         </tr>
         <tr>
-            <td rowspan="5">Sudoers Update</td>
+            <td rowspan="2">Sudoers Update</td>
             <td>Groups</td>
             <td class="{{ 'success' if (sudo_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'no-change' }}">
                 {{ 'Changes Applied' if (sudo_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'No Changes Needed' }}
@@ -43,7 +43,6 @@
                 {% endfor %}
             </td>
         </tr>
-        <!-- Similar rows for users -->
         <tr>
             <td>Users</td>
             <td class="{{ 'success' if (sudo_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'no-change' }}">
@@ -57,14 +56,22 @@
         </tr>
         <tr>
             <td rowspan="2">Access Configuration Update</td>
-            <td>Groups and Users</td>
-            <td class="{{ 'success' if (access_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0 or access_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'no-change' }}">
-                {{ 'Changes Applied' if (access_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0 or access_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'No Changes Needed' }}
+            <td>Groups</td>
+            <td class="{{ 'success' if (access_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'no-change' }}">
+                {{ 'Changes Applied' if (access_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'No Changes Needed' }}
             </td>
             <td>
                 {% for result in access_groups_result.results %}
                 {{ result.item }} (Group)<br>
                 {% endfor %}
+            </td>
+        </tr>
+        <tr>
+            <td>Users</td>
+            <td class="{{ 'success' if (access_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'no-change' }}">
+                {{ 'Changes Applied' if (access_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'No Changes Needed' }}
+            </td>
+            <td>
                 {% for result in access_users_result.results %}
                 {{ result.item }} (User)<br>
                 {% endfor %}
