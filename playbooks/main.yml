@@ -44,6 +44,9 @@
         - name: Update Patches and Reboot if Required
           include_tasks: tasks/update_patches.yml
 
+        - name: End Timer
+          include_tasks: tasks/end_timer.yml
+
         - name: Generate Report
           include_tasks: tasks/generate_report.yml
 
