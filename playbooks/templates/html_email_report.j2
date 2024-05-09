@@ -121,10 +121,23 @@
             </td>
             <td>Set to {{ kernel_limit }} in /etc/yum.conf</td>
         </tr>
-        {% for result in pam_update_results.results %}
         <tr>
-            <td>Update PAM Configurations</td>
-            <td>{{ result.item }}</td> <!-- Sub Task column will show the path of the PAM file -->
+            <td rowspan="{{ pam_update_results.results | length }}">Update PAM Configurations</td>
+            <td>{{ pam_update_results.results[0].item }}</td> <!-- First subtask shown on the same row as the main task -->
+            <td class="{{ 'success' if pam_update_results.results[0].changed and not pam_update_results.results[0].failed else 'failure' }}">
+                {{ 'Updated' if pam_update_results.results[0].changed and not pam_update_results.results[0].failed else 'Failed' }}
+            </td>
+            <td>
+                {% if pam_update_results.results[0].failed %}
+                Error: {{ pam_update_results.results[0].msg }}
+                {% else %}
+                Change successful or no change needed.
+                {% endif %}
+            </td>
+        </tr>
+        {% for result in pam_update_results.results[1:] %} <!-- Start from the second item -->
+        <tr>
+            <td>{{ result.item }}</td>
             <td class="{{ 'success' if result.changed and not result.failed else 'failure' }}">
                 {{ 'Updated' if result.changed and not result.failed else 'Failed' }}
             </td>
@@ -137,7 +150,6 @@
             </td>
         </tr>
         {% endfor %}
-
     </table>
 </body>
 </html>
