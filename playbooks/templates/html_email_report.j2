@@ -56,7 +56,7 @@
                 {{ result.item }} (User)<br>
                 {% endfor %}
             </td>
-        </tr>
+{#         </tr>
         <tr>
             <td>Network Search Domains Configuration</td>
             <td class="{{ 'success' if nmcli_output.changed else 'no-change' }}">
@@ -113,7 +113,7 @@
             <td>
                 Cron Job: {{ cron_command }} scheduled at 00:00 every day
             </td>
-        </tr>
+        </tr> #}
     </table>
 </body>
 </html>
