@@ -31,19 +31,15 @@
         <tr>
             <th>Connection Name</th>
             <th>IP Address</th>
-            <th>Subnet Mask</th>
             <th>Gateway</th>
             <th>DNS Servers</th>
         </tr>
-        {% for conn in nmcli_output.details %}
         <tr>
-            <td>{{ conn.conn_name }}</td>
-            <td>{{ conn.ip_address }}</td>
-            <td>{{ conn.subnet }}</td>
-            <td>{{ conn.gateway }}</td>
-            <td>{{ conn.dns_servers | join(', ') }}</td>
+            <td>{{ nmcli_output.conn_name }}</td>
+            <td>{{ nmcli_output.details.ip_address }}</td>
+            <td>{{ nmcli_output.details.gateway }}</td>
+            <td>{{ nmcli_output.details.dns_servers | join(', ') }}</td>
         </tr>
-        {% endfor %}
     </table>
     <table>
         <tr>
