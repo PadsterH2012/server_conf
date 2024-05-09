@@ -2,3 +2,8 @@
   set_fact:
     end_time: "{{ ansible_date_time.epoch }}"
     duration: "{{ (ansible_date_time.epoch | int) - (start_time | int) }}"
+
+- name: Convert duration to minutes and seconds
+  set_fact:
+    duration_display: "{{ (duration // 60) }} minutes and {{ (duration % 60) }} seconds"
+
