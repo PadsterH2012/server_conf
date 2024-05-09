@@ -6,9 +6,9 @@
 - name: Change the hostname
   ansible.builtin.hostname:
     name: "{{ new_hostname | upper }}"
-  when: current_hostname.stdout != new_hostname
   register: hostname_change_output
   ignore_errors: true
+  changed_when: "hostname_change_output.rc == 0"
 
 - name: Set default result if hostname change task is skipped
   ansible.builtin.set_fact:
