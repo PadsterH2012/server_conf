@@ -79,10 +79,12 @@
         <tr>
             <td>Hostname Change</td>
             <td>N/A</td>
-            <td class="{{ 'OK' if hostname_change_output.skipped or not hostname_change_output.changed else 'Changed' }}">
-                {{ 'OK' if hostname_change_output.skipped or not hostname_change_output.changed else 'Changed' }}
+            <td class="{{ 'Changed' if hostname_change_output.changed else 'OK' }}">
+                {{ 'Changed' if hostname_change_output.changed else 'OK' }}
             </td>
-            <td>{{ hostname_change_output.msg | default('Hostname update was not necessary.') }}</td>
+            <td>
+                {{ 'Hostname updated successfully.' if hostname_change_output.changed else 'Hostname change not required or already set correctly.' }}
+            </td>
         </tr>
         <tr>
             <td rowspan="2">Sudoers Update</td>
