@@ -1,7 +1,7 @@
 - name: Mount NFS share
   ansible.builtin.mount:
     path: /mnt/nfs_share
-    src: 10.203.20.3:/mnt/raid1/scripts/reports
+    src: 10.203.20.3:/mnt/raid1/scripts
     fstype: nfs
     opts: "nfsvers=4"
     state: mounted
@@ -10,7 +10,7 @@
 - name: Copy HTML report to NFS share
   ansible.builtin.copy:
     src: "/tmp/{{ new_hostname }}_report.html"
-    dest: "/mnt/nfs_share/{{ new_hostname }}_report.html"
+    dest: "/mnt/nfs_share/Reports/{{ new_hostname }}_report.html"
     remote_src: yes
 
 - name: Unmount SMB share
