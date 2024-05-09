@@ -1,3 +1,7 @@
+- name: Initialize PAM configuration failure flag
+  set_fact:
+    pam_update_failed: false
+
 - name: Update PAM configurations to allow spaces in user and group names
   ansible.builtin.lineinfile:
     path: "{{ item }}"
@@ -9,6 +13,11 @@
     - /etc/pam.d/crond
     - /etc/pam.d/password-auth
     - /etc/pam.d/system-auth
-  ignore_errors: yes
+  ignore_errors: true
   register: pam_update_results
   become: yes
+
+- name: Set failure flag if any PAM configuration update fails
+  set_fact:
+    pam_update_failed: true
+  when: pam_update_results.results | any(attribute='failed')
