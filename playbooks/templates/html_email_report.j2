@@ -33,8 +33,7 @@
         </tr>
         <tr>
             <td>Sudoers</td>
-            <td rowspan="{{ (sudo_groups_result.results | length) + (sudo_users_result.results | length) }}">Groups</td>
-{#             <td>Groups</td> #}
+            <td rowspan="{{ (sudo_groups_result.results | length) + (sudo_users_result.results | length) }}">N/A</td>
             <td class="{{ 'success' if (sudo_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'no-change' }}">
                 {{ 'Changes Applied' if (sudo_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'No Changes Needed' }}
             </td>
@@ -45,7 +44,8 @@
             </td>
         </tr>
         <tr>
-            <td>Access Configuration Update</td>
+            <td>Access Conf</td>
+            <td>N/A</td>
             <td class="{{ 'success' if (access_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0 or access_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'no-change' }}">
                 {{ 'Changes Applied' if (access_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0 or access_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'No Changes Needed' }}
             </td>
