@@ -38,6 +38,9 @@
         - name: Setup and Mount attached disks
           include_tasks: tasks/setup_disks.yml
 
+        - name: Update Patches and Reboot if Required
+          include_tasks: tasks/update_patches.yml
+
         - name: Generate Report
           include_tasks: tasks/generate_report.yml
 
