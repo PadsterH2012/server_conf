@@ -1,13 +1,11 @@
-<!DOCTYPE html>
 <html>
 <head>
-  <title>Hostname Change Report</title>
+    <title>Server Configuration Report</title>
 </head>
 <body>
-  <h1>Hostname Change Report for {{ inventory_hostname }}</h1>
-  <p>Date of Report: {{ ansible_date_time.iso8601 }}</p>
-  <ul>
-    <li>Hostname Change: {% if task_status is defined and task_status == "Failed" %}<strong>Failed</strong>{% else %}<strong>Complete</strong>{% endif %}</li>
-  </ul>
+    <h1>Hostname Change Report for {{ new_hostname }}</h1>
+    <p>Date of Report: {{ ansible_date_time.iso8601 }}</p>
+    <p>Hostname Change: {% if hostname_change_result.changed %}Complete{% else %}No Change Needed{% endif %}</p>
+    <p>Other Task Status: {{ other_task_status }}</p>
 </body>
 </html>
