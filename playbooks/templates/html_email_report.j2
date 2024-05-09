@@ -85,12 +85,17 @@
             </td>
             <td>
                 {% if nmcli_output.changed %}
-                Search Domains: {{ domain_list | join(', ') }}
+                <ul>
+                    {% for domain in domain_list %}
+                    <li>{{ domain }}</li>
+                    {% endfor %}
+                </ul>
                 {% else %}
                 No changes to search domains.
                 {% endif %}
             </td>
         </tr>
+
     </table>
 </body>
 </html>
