@@ -1,3 +1,8 @@
+- name: Initialize failure flags
+  set_fact:
+    access_groups_failed: false
+    access_users_failed: false
+
 - name: Update access.conf with general security groups
   ansible.builtin.lineinfile:
     path: /etc/security/access.conf
