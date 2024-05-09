@@ -1,10 +1,18 @@
 - name: Get current hostname
-  ansible.builtin.setup:
-    filter: ansible_hostname
+  ansible.builtin.command:
+    cmd: hostname
   register: current_hostname
 
-- name: Change the hostname only if needed
+- name: Change the hostname
   ansible.builtin.hostname:
     name: "{{ new_hostname }}"
-  when: current_hostname.ansible_facts.ansible_hostname != new_hostname
+  when: current_hostname.stdout != new_hostname
   register: hostname_change_output
+  ignore_errors: true
+
+- name: Set default result if hostname change task is skipped
+  ansible.builtin.set_fact:
+    hostname_change_output:
+      skipped: true
+      msg: "Hostname change was skipped as it is already set correctly."
+  when: hostname_change_output is not defined
