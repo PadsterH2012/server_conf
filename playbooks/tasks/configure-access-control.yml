@@ -1,4 +1,3 @@
----
 - name: Update access.conf with general security groups
   ansible.builtin.lineinfile:
     path: /etc/security/access.conf
@@ -6,6 +5,7 @@
     create: yes
     state: present
   loop: "{{ access_groups }}"
+  register: access_groups_result
   become: yes
 
 - name: Add users to access.conf
@@ -14,4 +14,5 @@
     line: "+:{{ item }}:ALL"
     state: present
   loop: "{{ access_users }}"
+  register: access_users_result
   become: yes
