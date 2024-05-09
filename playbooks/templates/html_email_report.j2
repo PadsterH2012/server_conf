@@ -113,8 +113,8 @@
         <tr>
             <td rowspan="2">Access Configuration Update</td>
             <td>Groups</td>
-            <td class="{{ 'success' if (access_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'no-change' }}">
-                {{ 'Changes Applied' if (access_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'No Changes Needed' }}
+            <td class="{{ 'Failed' if access_groups_failed else 'Changed' if (access_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'OK' }}">
+                {{ 'Failed' if access_groups_failed else 'Changed' if (access_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'OK' }}
             </td>
             <td>
                 {% for result in access_groups_result.results %}
@@ -124,8 +124,8 @@
         </tr>
         <tr>
             <td>Users</td>
-            <td class="{{ 'success' if (access_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'no-change' }}">
-                {{ 'Changes Applied' if (access_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'No Changes Needed' }}
+            <td class="{{ 'Failed' if access_users_failed else 'Changed' if (access_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'OK' }}">
+                {{ 'Failed' if access_users_failed else 'Changed' if (access_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'OK' }}
             </td>
             <td>
                 {% for result in access_users_result.results %}
