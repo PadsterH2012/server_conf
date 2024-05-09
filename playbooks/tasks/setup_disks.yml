@@ -32,7 +32,8 @@
       
     - name: Gather filesystem details
       ansible.builtin.shell:
-        cmd: "df -h | grep {{ item.item.dev }}"
+        cmd: "df -h | grep {{ item.item.dev }} | awk '{print $2}'"  # $2 typically is the size column
       register: disk_sizes
       loop: "{{ disk_status.results }}"
       when: item.stat.exists
+
