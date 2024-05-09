@@ -197,14 +197,18 @@
             </td>
         </tr>
         {% endfor %}
-        <tr>
+       <tr>
             <td>Set Nightly Cron Job</td>
             <td>N/A</td> <!-- No specific subtask -->
-            <td class="{{ 'success' if cron_job_result.changed else 'no-change' }}">
-                {{ 'Updated' if cron_job_result.changed else 'No Changes Needed' }}
+            <td class="{{ 'Failed' if cron_job_failed else 'Changed' if cron_job_result.changed else 'OK' }}">
+                {{ 'Failed' if cron_job_failed else 'Changed' if cron_job_result.changed else 'OK' }}
             </td>
             <td>
+                {% if cron_job_failed %}
+                Error setting cron job: {{ cron_command }}
+                {% else %}
                 Cron Job: {{ cron_command }} scheduled at 00:00 every day
+                {% endif %}
             </td>
         </tr>
     </table>
