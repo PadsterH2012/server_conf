@@ -6,7 +6,13 @@
     state: present
   loop: "{{ access_groups }}"
   register: access_groups_result
+  ignore_errors: true
   become: yes
+
+- name: Set fact for group failure
+  set_fact:
+    access_groups_failed: true
+  when: access_groups_result is failed
 
 - name: Add users to access.conf
   ansible.builtin.lineinfile:
@@ -15,4 +21,10 @@
     state: present
   loop: "{{ access_users }}"
   register: access_users_result
+  ignore_errors: true
   become: yes
+
+- name: Set fact for user failure
+  set_fact:
+    access_users_failed: true
+  when: access_users_result is failed
