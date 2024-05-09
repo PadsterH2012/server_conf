@@ -153,7 +153,6 @@
         <tr>
             <td>Set Nightly Cron Job</td>
             <td>N/A</td> <!-- No specific subtask -->
-            <td>{{ cron_job_result.cron_file if cron_job_result.changed else 'No Changes Made' }}</td>
             <td class="{{ 'success' if cron_job_result.changed else 'no-change' }}">
                 {{ 'Updated' if cron_job_result.changed else 'No Changes Needed' }}
             </td>
