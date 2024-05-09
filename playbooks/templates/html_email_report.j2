@@ -34,20 +34,40 @@
             </td>
         </tr>
         <tr>
-            <td rowspan="{{ (sudo_groups_result.results | length) + (sudo_users_result.results | length) }}">Sudoers Update</td>
+            <td rowspan="{{ (sudo_groups_result.results | length) + (sudo_users_result.results | length) + 1 }}">Sudoers Update</td>
+            <td>Groups Updated</td>
+            <td class="{{ 'success' if (sudo_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'no-change' }}">
+                {{ 'Changes Applied' if (sudo_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'No Changes Needed' }}
+            </td>
+            <td>
+                {% for result in sudo_groups_result.results %}
+                    {{ result.item }}<br>
+                {% endfor %}
+            </td>
         </tr>
         {% for result in sudo_groups_result.results %}
         <tr>
-            <td>Group: {{ result.item }}</td>
+            <td>{{ result.item }}</td>
             <td class="{{ 'success' if result.changed else 'no-change' }}">
                 {{ 'Changed' if result.changed else 'No Changes Needed' }}
             </td>
             <td>{{ result.msg if result.changed else 'Group already present or no changes required.' }}</td>
         </tr>
         {% endfor %}
+        <tr>
+            <td>Users Updated</td>
+            <td class="{{ 'success' if (sudo_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'no-change' }}">
+                {{ 'Changes Applied' if (sudo_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'No Changes Needed' }}
+            </td>
+            <td>
+                {% for result in sudo_users_result.results %}
+                    {{ result.item }}<br>
+                {% endfor %}
+            </td>
+        </tr>
         {% for result in sudo_users_result.results %}
         <tr>
-            <td>User: {{ result.item }}</td>
+            <td>{{ result.item }}</td>
             <td class="{{ 'success' if result.changed else 'no-change' }}">
                 {{ 'Changed' if result.changed else 'No Changes Needed' }}
             </td>
