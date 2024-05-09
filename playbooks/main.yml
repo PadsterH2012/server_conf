@@ -5,6 +5,9 @@
 
   tasks:
     - block:
+        - name: Start Timer
+          include_tasks: tasks/start_timer.yml
+          
         - name: Include Set Hostname Tasks
           include_tasks: tasks/set_hostname.yml
 
