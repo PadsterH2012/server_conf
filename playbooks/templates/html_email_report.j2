@@ -1,11 +1,32 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Server Configuration Report</title>
+    <meta charset="UTF-8">
+    <title>System Configuration Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .success { color: green; }
+        .failure { color: red; }
+    </style>
 </head>
 <body>
-    <h1>Hostname Change Report for {{ new_hostname }}</h1>
+    <h1>System Configuration Report for {{ new_hostname }}</h1>
     <p>Date of Report: {{ ansible_date_time.iso8601 }}</p>
-    <p>Hostname Change: {% if hostname_change_result.changed %}Complete{% else %}No Change Needed{% endif %}</p>
-    <p>Other Task Status: {{ other_task_status }}</p>
+    <table>
+        <tr>
+            <th>Task</th>
+            <th>Status</th>
+        </tr>
+        <tr>
+            <td>Hostname Change</td>
+            <td class="{{ 'success' if hostname_change_result.changed else 'failure' }}"> 
+                {{ 'Complete' if hostname_change_result.changed else 'Failed' }}
+            </td>
+        </tr>
+        <!-- Add more rows as needed for other tasks -->
+    </table>
 </body>
 </html>
