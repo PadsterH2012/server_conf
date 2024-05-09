@@ -6,3 +6,8 @@
     state: present
   register: nmcli_output  # Register the result of the nmcli command
   become: yes
+
+- name: Debug nmcli_output
+  debug:
+    var: nmcli_output
+
