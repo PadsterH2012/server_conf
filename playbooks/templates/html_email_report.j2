@@ -88,6 +88,28 @@
                 Set to {{ kernel_limit }} in /etc/yum.conf
             </td>
         </tr>
+        <tr>
+            <th>Task Name</th>
+            <th>File</th>
+            <th>Status</th>
+            <th>Details</th>
+        </tr>
+        {% for result in pam_update_results.results %}
+        <tr>
+            <td>Update PAM configurations</td>
+            <td>{{ result.item }}</td>
+            <td class="{{ 'success' if result.changed else 'failure' }}">
+                {{ 'Updated' if result.changed else 'Failed' }}
+            </td>
+            <td>
+                {% if result.failed %}
+                Error: {{ result.msg }}
+                {% else %}
+                Change successful or no change needed.
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
     </table>
 </body>
 </html>
