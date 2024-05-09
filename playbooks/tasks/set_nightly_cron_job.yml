@@ -1,3 +1,7 @@
+- name: Initialize cron job failure flag
+  set_fact:
+    cron_job_failed: false
+
 - name: Set nightly cron job
   ansible.builtin.cron:
     name: "Nightly Update Job"
@@ -6,5 +10,10 @@
     minute: 0
     user: "{{ cron_user | default('root') }}"
     state: present
-  register: cron_job_result  # Register the result of the cron job setup
-  become: yes
+  register: cron_job_result
+  ignore_errors: true
+
+- name: Set failure flag if cron job setup fails
+  set_fact:
+    cron_job_failed: true
+  when: cron_job_result.failed
