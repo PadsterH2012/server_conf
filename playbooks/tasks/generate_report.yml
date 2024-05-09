@@ -6,5 +6,5 @@
   delegate_to: 10.203.20.199  # Ensure this runs on the remote host
   vars:
     new_hostname: "{{ new_hostname }}"
-    hostname_change_result: "{{ hostname_change_output }}"
+    hostname_change_result: "{{ hostname_change }}"
     other_task_status: "Additional details here"
