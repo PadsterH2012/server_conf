@@ -83,7 +83,7 @@
         <tr>
             <td rowspan="2">Sudoers Update</td>
             <td>Groups</td>
-            <td class="{{ 'success' if (sudo_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'no-change' }}">
+            <td class="{{ 'Changed' if (sudo_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'OK' }}">
                 {{ 'Changes Applied' if (sudo_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'No Changes Needed' }}
             </td>
             <td>
@@ -94,7 +94,7 @@
         </tr>
         <tr>
             <td>Users</td>
-            <td class="{{ 'success' if (sudo_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'no-change' }}">
+            <td class="{{ 'Changed' if (sudo_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'OK' }}">
                 {{ 'Changes Applied' if (sudo_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'No Changes Needed' }}
             </td>
             <td>
@@ -103,6 +103,7 @@
                 {% endfor %}
             </td>
         </tr>
+
         <tr>
             <td rowspan="2">Access Configuration Update</td>
             <td>Groups</td>
