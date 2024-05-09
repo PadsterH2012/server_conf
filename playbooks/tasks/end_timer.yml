@@ -1,7 +1,3 @@
-- name: Artificial delay for testing
-  pause:
-    seconds: 5
-
 - name: Re-gather facts to update the current time
   setup:
     filter: ansible_date_time
