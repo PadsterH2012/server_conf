@@ -14,7 +14,7 @@
     </style>
 </head>
 <body>
-    <h1>System Configuration Report for {{ new_hostname }}</h1>
+    <h1>System Configuration Report for {{ new_hostname | upper }}</h1>
     <p>Date of Report: {{ ansible_date_time.iso8601 }}</p>
     <table>
         <tr>
