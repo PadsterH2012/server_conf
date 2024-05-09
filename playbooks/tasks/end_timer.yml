@@ -5,5 +5,6 @@
 
 - name: Convert duration to minutes and seconds
   set_fact:
-    duration_display: "{{ (duration // 60) }} minutes and {{ (duration % 60) }} seconds"
+    duration_display: "{{ ((duration | int) // 60) }} minutes and {{ ((duration | int) % 60) }} seconds"
+
 
