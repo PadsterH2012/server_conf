@@ -24,6 +24,14 @@
             <th>Details</th>
         </tr>
         <tr>
+            <td>Hostname Change</td>
+            <td>N/A</td>
+            <td class="{{ 'changed' if hostname_change_output.rc|default(0) == 0 else 'failed' }}">
+                {{ 'Complete' if hostname_change_output.rc|default(0) == 0 else 'Failed' }}
+            </td>
+            <td>N/A</td>
+        </tr>
+        <tr>
             <td rowspan="2">Kernel Limit Configuration</td>
             <td>DNF</td>
             <td class="unchanged">No Changes Needed</td>
