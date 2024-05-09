@@ -36,10 +36,12 @@
             <td>IP Address</td>
             <td>{{ nmcli_output.details.ip_address }}</td>
         </tr>
+        {% if 'subnet' in nmcli_output.details %}
         <tr>
             <td>Subnet</td>
             <td>{{ nmcli_output.details.subnet }}</td>
         </tr>
+        {% endif %}
         <tr>
             <td>Gateway</td>
             <td>{{ nmcli_output.details.gateway }}</td>
@@ -52,6 +54,7 @@
             </td>
         </tr>
     </table>
+
 
     <table>
         <tr>
