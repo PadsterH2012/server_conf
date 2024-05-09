@@ -87,8 +87,8 @@
         <tr>
             <td rowspan="2">Sudoers Update</td>
             <td>Groups</td>
-            <td class="{{ 'Changed' if (sudo_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'OK' }}">
-                {{ 'Changes Applied' if (sudo_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'No Changes Needed' }}
+            <td class="{{ 'Failed' if sudo_groups_failed else 'Changed' if (sudo_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'OK' }}">
+                {{ 'Failed' if sudo_groups_failed else 'Changes Applied' if (sudo_groups_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'No Changes Needed' }}
             </td>
             <td>
                 {% for result in sudo_groups_result.results %}
@@ -98,8 +98,8 @@
         </tr>
         <tr>
             <td>Users</td>
-            <td class="{{ 'Changed' if (sudo_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'OK' }}">
-                {{ 'Changes Applied' if (sudo_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'No Changes Needed' }}
+            <td class="{{ 'Failed' if sudo_users_failed == 'Failed' else 'Changed' if (sudo_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'OK' }}">
+                {{ 'Failed' if sudo_users_failed == 'Failed' else 'Changes Applied' if (sudo_users_result.results | map(attribute='changed') | select('equalto', true) | list | count > 0) else 'No Changes Needed' }}
             </td>
             <td>
                 {% for result in sudo_users_result.results %}
