@@ -170,29 +170,29 @@
         </tr>
         <tr>
             <td rowspan="{{ pam_update_results.results | length }}">Update PAM Configurations</td>
-            <td>{{ pam_update_results.results[0].item }}</td> <!-- First subtask shown on the same row as the main task -->
-            <td class="{{ 'success' if pam_update_results.results[0].changed and not pam_update_results.results[0].failed else 'failure' }}">
-                {{ 'Updated' if pam_update_results.results[0].changed and not pam_update_results.results[0].failed else 'Failed' }}
+            <td>{{ pam_update_results.results[0].item }}</td>
+            <td class="{{ 'Failed' if pam_update_results.results[0].failed else 'Changed' if pam_update_results.results[0].changed else 'OK' }}">
+                {{ 'Failed' if pam_update_results.results[0].failed else 'Changed' if pam_update_results.results[0].changed else 'OK' }}
             </td>
             <td>
                 {% if pam_update_results.results[0].failed %}
                 Error: {{ pam_update_results.results[0].msg }}
                 {% else %}
-                Change successful or no change needed.
+                Configuration updated successfully.
                 {% endif %}
             </td>
         </tr>
-        {% for result in pam_update_results.results[1:] %} <!-- Start from the second item -->
+        {% for result in pam_update_results.results[1:] %}
         <tr>
             <td>{{ result.item }}</td>
-            <td class="{{ 'success' if result.changed and not result.failed else 'failure' }}">
-                {{ 'Updated' if result.changed and not result.failed else 'Failed' }}
+            <td class="{{ 'Failed' if result.failed else 'Changed' if result.changed else 'OK' }}">
+                {{ 'Failed' if result.failed else 'Changed' if result.changed else 'OK' }}
             </td>
             <td>
                 {% if result.failed %}
                 Error: {{ result.msg }}
                 {% else %}
-                Change successful or no change needed.
+                Configuration updated successfully.
                 {% endif %}
             </td>
         </tr>
